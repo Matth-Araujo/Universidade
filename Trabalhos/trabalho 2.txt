@@ -1,0 +1,68 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+
+int* gerarVetor(int n){
+	int *v,i;
+		v= (int*) malloc(n*sizeof(int));
+		 if(!v){
+		 	printf("\n FALHA NA CONVERSAO!!! \n");
+		 	exit(1);
+		 }
+		 srand(time(0));
+		 
+		 for(i=0;i<n;i++){
+		 	v[i] = rand()%100;
+		 }
+		 
+	return (v);	 
+}
+
+void trocarPosicao(int a, int b, int *v){
+	int aa,pv,temp;
+	aa = a;
+	pv = v[a];
+	a++;
+		while(a<b){
+			while(a>b && pv>=v[a]){
+				a++;
+				while(b>=0 && pv<v[b]){
+					b--;
+					if(a<b){
+						temp = v[a];
+						v[a] = v[b];
+						v[b] = temp;
+						a++;
+						b--;
+					}
+				}
+			}
+			v[aa] = v[b];
+			v[b] = pv;
+		}
+}
+
+
+void exibirVetor(int n,int *v){
+	int i;
+		printf("\n ------------------\n");
+		printf("\n       VETOR       \n");
+		printf("\n ------------------\n");
+		for(i=0;i<n;i++){
+			printf(" %d",v[i]);
+		}
+}
+
+main(){
+  	int n,*v,t=0;
+	  
+	  printf("Digite o tamanho do Vetor: "); scanf(" %d",&n);
+	  
+	  v = gerarVetor(n);
+	  exibirVetor(n,v);
+	  trocarPosicao(t,n-1,v);
+      exibirVetor(n,v);
+	  	
+	free(v);
+}

@@ -1,0 +1,73 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+void fazermatriz(int n, int matriz[10][10])  // matriz com tamanho definido pelo usuário
+{
+    int i, j;
+    srand(time(0));
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < n; j++) {
+            matriz[i][j] = rand() % 100;
+        }
+    }
+}
+
+void exibirmat(int n, int matriz[10][10])  //exibir matriz
+{
+    int i, j;
+
+    printf("\n------------\n");
+    printf("\n MATRIZ\n");
+    printf("------------\n");
+    for (i = 0; i < n; i++) {
+        printf("\n");
+        for (j = 0; j < n; j++) {
+            printf(" %d", matriz[i][j]);
+        }
+    }
+}
+
+void trocar(int *a,int *b){
+	int temp = *a;
+	*a = *b;
+	*b = temp;
+	
+}
+
+
+
+
+
+int main() {
+    int n, matriz[10][10],t,j,i;
+    
+    printf("Digite o tamanho da Matriz (no maximo 10): ");
+    scanf(" %d", &n);
+
+    fazermatriz(n, matriz);
+    exibirmat(n, matriz);
+    
+    
+	
+	for(i=0;i<n;i++){
+		while(1){
+			t=0;
+			for(j=0;j<n-1;j++){
+				if(matriz[i][j]>matriz[i][j+1]){
+					trocar(&matriz[i][j],&matriz[i][j+1]);
+					t+=1;
+				}
+			}
+			if(t==0){
+				break;
+			}
+		}
+	}
+
+
+
+	exibirmat(n, matriz);
+	
+    return 0;
+}
