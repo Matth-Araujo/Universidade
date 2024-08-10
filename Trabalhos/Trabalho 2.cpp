@@ -19,6 +19,7 @@ int* gerarVetor(int n){
 	return (v);	 
 }
 
+
 int trocarPosicao(int a, int b, int *v){
 	int aa,pv,temp;
 	pv = v[a];
@@ -41,16 +42,6 @@ int trocarPosicao(int a, int b, int *v){
 		return (b);
 }
 
-void quickSort(int *v, int a, int b) {
-    if (a < b) {
-        int pv = trocarPosicao(a,b,v);
-        
-        quickSort(v, a, pv - 1);
-        quickSort(v, pv + 1, b);
-
-    }
-}
-
 
 void exibirVetor(int n,int *v){
 	int i;
@@ -61,18 +52,49 @@ void exibirVetor(int n,int *v){
 			printf(" %d",v[i]);
 		}
 }
+
+void quickSort(int *v, int a, int b) {
+    int pv ;
+	if (a < b) {
+        pv = trocarPosicao(a,b,v);
+        
+        quickSort(v, a, pv - 1);
+        //exibirVetor(pv-1,v);
+        
+        quickSort(v, pv + 1, b);
+        //exibirVetor(pv+1,v);
+
+    }
+}
+
+ int valorpivo(int *v){
+ 	return (v[0]);
+ }
+
+
+
 int main(void){
-  	int n,*v,s;
+  	int n,*v,s,t;
 	  
 	  printf("Digite o tamanho do Vetor: "); scanf(" %d",&n);
 	  
 	  v = gerarVetor(n);
 	  exibirVetor(n,v);
-	  s = trocarPosicao(0,n-1,v);    // quicksort  trocar(0,s-1,v)trocar(s,b-1,v)
-      exibirVetor(n,v);
+	  t = valorpivo(v);
+	  
+	  s = trocarPosicao(0,n-1,v);
+	  printf("\n");
+	  printf("\n Valor do pivo: %d",t);
+	  
+	  printf("\n");
+	  
+	  exibirVetor(n,v);
+	  printf("\n");
 	  printf("\nO pivo ficou no indice %d \n",s);
+	  
 	  quickSort(v, 0, n - 1);
 	  exibirVetor(n,v);
+	  
 	free(v);
 	return 0;
 }

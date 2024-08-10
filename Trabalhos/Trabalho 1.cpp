@@ -35,7 +35,7 @@ void vetorParam(int n, int vetorP[10], int mat[10][10]) // criacao do vetor do p
 }
 
 
-void gerarmatrizInd(int n,int vetorP[10],int MatrizEntrada[10][10],int MatrizInd[10][10]) // matriz dos Indices
+void prodmatrizInd(int n,int vetorP[10],int MatrizEntrada[10][10],int MatrizInd[10][10]) // matriz dos Indices
 {
     int i,j,t,menorInd,dist,distmin;
      
@@ -43,7 +43,7 @@ void gerarmatrizInd(int n,int vetorP[10],int MatrizEntrada[10][10],int MatrizInd
 	   {
      	for(j=0;j<10;j++)
 		   {
-     		distmin = 300;
+     		distmin = 110;
      		for(t=0;t<n;t++)
 			   {
      			dist = abs(MatrizEntrada[i][j]- vetorP[t]);
@@ -60,50 +60,50 @@ void gerarmatrizInd(int n,int vetorP[10],int MatrizEntrada[10][10],int MatrizInd
 
 
 
-void calculoParam(int n,int res[10],int matrizEntrada[10][10],int matrizInd[10][10])  //funcao para calcular a media da matriz de indices
+void calculoParam(int n,int vetorM[10],int matrizEntrada[10][10],int matrizInd[10][10])  //funcao para calcular a media da matriz de indices
 {
 	int i,j,t,r,cont[10];
 	
 	   for(t=0;t<n;t++) 
 	   {
 	   	cont[t]=0;
-	   	res[t]=0;  }
+	   	vetorM[t]=0;  }
 	   	
 	   	for(i=0;i<10;i++)
 	   	{
 	   		for(j=0;j<10;j++)
 			{
 	   			r=matrizInd[i][j];
-	   			res[r]+= matrizEntrada[i][j];
+	   			vetorM[r]+= matrizEntrada[i][j];
 	   			cont[r]+=1;
 			    
 			}
 		}
 		for(i=0;i<n;i++){
-			res[i]/=(float)cont[i];
+			vetorM[i]/=(float)cont[i];
 		}
 
 		  
 }
 
 
-int calculardistancia(int n,int vetorP[10],int res[10]) //calculo da distancia entre os valores de cada indice do vetor
+int calculardistance(int n,int vetorP[10],int vetorM[10]) //calculo da distancia entre os valores de cada indice do vetor
 {
    int i,distancia=0;
    
    for(i=0;i<n;i++){
-   	distancia+=fabs(res[i]-vetorP[i]);
+   	distancia+=abs(vetorM[i]-vetorP[i]);
    }
    	return distancia;	
 }
 
 
-void copia(int n,int vetorP[10], int res[10]) // copiar o vetor res no vetor vetorP
+void copia(int n,int vetorP[10], int vetorM[10]) // copiar o vetor res no vetor vetorP
 {
 	int i;
 	 
 	 for(i=0;i<n;i++){
-	 	vetorP[i]=res[i];
+	 	vetorP[i]=vetorM[i];
 	 }
 	
 	
@@ -112,14 +112,14 @@ void copia(int n,int vetorP[10], int res[10]) // copiar o vetor res no vetor vet
 
 
 
-void exibirres(int res[10],int n)  // exibir o vetor res(da media)
+void exibirvetorM(int vetorM[10],int n)  // exibir o vetor res(da media)
 {
 	int t;
     printf("\n-----------------");
 	printf("\n  NOVO  VETOR   \n");
 	printf("-----------------\n");
 	for(t=0; t<n; t++) {
-		printf(" %d", res[t]);
+		printf(" %d", vetorM[t]);
 	}	
 }
 
@@ -154,6 +154,23 @@ void  exibir(int mat[10][10]) // Funcao para Exibir a Matriz Principal e Final
 				 }
 	
 }
+
+
+
+void  exibirfim(int mat[10][10]) // Funcao para Exibir a Matriz  Final
+{
+	int i, j;
+	        printf("----------------------");
+			printf("\n  Matriz de Final \n"); 
+			printf("----------------------\n");
+			 	for(i=0; i<10; i++){
+			 		printf("\n");
+			 		  for(j=0; j<10; j++){
+			 		    printf(" %d",mat[i][j]);
+			 		}
+				 }
+	
+}
 void  exibirInd(int mat[10][10]) // Funcao para Exibir a Matriz Principal e dos indices
 {
 	int i, j;
@@ -170,24 +187,9 @@ void  exibirInd(int mat[10][10]) // Funcao para Exibir a Matriz Principal e dos 
 	
 }
 
-void  exibirS(int mat[10][10]) // Funcao para Exibir a Matriz Principal e Final
-{
-	int i, j;
-	        printf("----------------------");
-			printf("\n  Matriz de Saida \n"); 
-			printf("----------------------\n");
-			 	for(i=0; i<10; i++){
-			 		printf("\n");
-			 		  for(j=0; j<10; j++){
-			 		    printf(" %d",mat[i][j]);
-			 		}
-				 }
-	
-}
-
 int main()
 {
-	int matrizEntrada[10][10],vetorP[10],n,matrizInd[10][10],AC[10],matrizS[10][10],res[10],limite=5,d ;
+	int matrizEntrada[10][10],vetorP[10],n,matrizInd[10][10],matrizS[10][10],vetorM[10],limite=5,d ;
 	
        MatrizEnt(matrizEntrada);
        exibir(matrizEntrada);   //funcoes da matriz de entrada
@@ -204,20 +206,24 @@ int main()
 	   
 	while(1){
 	printf("\n");
-	   gerarmatrizInd(n,vetorP,matrizEntrada,matrizInd);  // funcao da matriz de indices
+	   
+	   prodmatrizInd(n,vetorP,matrizEntrada,matrizInd);  // funcao da matriz de indices
 	   exibirInd(matrizInd); //funcao para exibir a matrizes dos indices
-	   calculoParam(n,res,matrizEntrada,matrizInd); //calcular o novo vetor da matriz dos indices
-	   exibirres(res,n);  //funcao para exibir o novo vetor 
-	   d=calculardistancia(n,vetorP,res); //calcular a distancia dos valores do vetor
-	   if(d<limite) //comparando com o erro limite
-	     break;
-	    else
-	       copia(n,vetorP,res); // copiando o vetor res para o vetorP
+	   
+	   calculoParam(n,vetorM,matrizEntrada,matrizInd); //calcular o novo vetor da matriz dos indices
+	   exibirvetorM(vetorM,n);  //funcao para exibir o novo vetor 
+	   
+	   
+	   d=calculardistance(n,vetorP,vetorM); //calcular a distancia dos valores do vetor
+	   		if(d<limite) //comparando com o erro limite
+	     		break;
+	    	  else
+	      		 copia(n,vetorP,vetorM); // copiando o vetorM para o vetorP
 	   
 }
-	   Matrizsaida(res, n, matrizS, matrizInd);  // Matriz final
-	   printf("\n");
-	   exibirS(matrizS); 
+	  	 Matrizsaida(vetorM, n, matrizS, matrizInd);  // Matriz final
+	   		printf("\n");
+	   			exibirfim(matrizS); 
 	   
 		
 }
